@@ -1,0 +1,6 @@
+STATUS.md
+.vscode/
+.idea/
+*.log
+*.tmp
+*.bak

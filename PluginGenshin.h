@@ -20,6 +20,7 @@ public:
     virtual const wchar_t* GetInfo(PluginInfoIndex index) override;
     virtual void OnExtenedInfo(ExtendedInfoIndex index, const wchar_t* data) override;
     virtual void OnInitialize(ITrafficMonitor* pApp) override;
+    virtual const wchar_t* GetTooltipInfo() override;
 
     // Called by the static thread entry point
     void WorkerLoop();
@@ -41,6 +42,7 @@ private:
     void LoadConfigOrDefaults(const wchar_t* configDir);
     void FetchFromApi();
     void UpdateCachedStrings();
+    void TriggerRefresh();
 
     static CPluginGenshin m_instance;
 };

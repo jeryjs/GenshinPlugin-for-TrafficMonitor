@@ -24,6 +24,14 @@ public:
     int m_expeditionFinished{ 0 };
     int m_expeditionTotal{ 5 };
 
+    // Cached last known values (persisted to config for fallback)
+    int m_cachedStaminaCurrent{ 0 };
+    int m_cachedStaminaMax{ 200 };
+    int m_cachedRealmCurrent{ 0 };
+    int m_cachedRealmMax{ 2400 };
+    int m_cachedExpeditionFinished{ 0 };
+    int m_cachedExpeditionTotal{ 5 };
+
     // Settings
     int m_refreshInterval{ 60 };
     bool m_showStamina{ true };
@@ -32,6 +40,9 @@ public:
 
     std::wstring m_apiUrl{ L"https://jeryjs.dedyn.io/hla/api/genshin/notes" };
     std::wstring m_configPath;
+
+    // Last successful refresh timestamp (shown in tooltip)
+    std::wstring m_lastRefreshTime;
 
 private:
     CDataManager();

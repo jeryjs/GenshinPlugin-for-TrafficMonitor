@@ -4,8 +4,22 @@
 #include "HttpClient.h"
 #include "OptionsDlg.h"
 #include <nlohmann/json.hpp>
+#include <chrono>
+#include <sstream>
+#include <iomanip>
 
 using json = nlohmann::json;
+
+// Helper to format current time for display
+static std::wstring GetCurrentTimeString() {
+    auto now = std::chrono::system_clock::now();
+    auto time = std::chrono::system_clock::to_time_t(now);
+    struct tm localTime;
+    localtime_s(&localTime, &time);
+    std::wostringstream oss;
+    oss << std::put_time(&localTime, L"%Y-%m-%d %H:%M:%S");
+    return oss.str();
+}
 
 CPluginGenshin CPluginGenshin::m_instance;
 
@@ -153,6 +167,23 @@ void CPluginGenshin::LoadConfigOrDefaults(const wchar_t* configDir)
     m_configLoaded = true;
 }
 
+const wchar_t* CPluginGenshin::GetTooltipInfo() {
+    static wchar_t buf[256];
+    AutoLock lock(g_data.m_mutex);
+    if (g_data.m_lastRefreshTime.empty()) {
+        swprintf(buf, L"Last refresh: never");
+    } else {
+        swprintf(buf, L"Last refresh: %s", g_data.m_lastRefreshTime.c_str());
+    }
+    return buf;
+}
+
+// Trigger an immediate refresh (called from options dialog)
+void CPluginGenshin::TriggerRefresh() {
+    // For now, just call FetchFromApi directly (it's thread-safe via mutex)
+    FetchFromApi();
+}
+
 // ---------------------------------------------------------------------------
 // Background worker
 // ---------------------------------------------------------------------------
@@ -235,6 +266,18 @@ void CPluginGenshin::FetchFromApi()
         g_data.m_realmMax = reMax;
         g_data.m_expeditionFinished = expFin;
         g_data.m_expeditionTotal = expTotal > 0 ? expTotal : 5;
+
+        // Update cached values and last refresh timestamp on successful fetch
+        g_data.m_cachedStaminaCurrent = stCur;
+        g_data.m_cachedStaminaMax = stMax;
+        g_data.m_cachedRealmCurrent = reCur;
+        g_data.m_cachedRealmMax = reMax;
+        g_data.m_cachedExpeditionFinished = expFin;
+        g_data.m_cachedExpeditionTotal = expTotal > 0 ? expTotal : 5;
+        g_data.m_lastRefreshTime = GetCurrentTimeString();
+
+        // Persist cached values to disk
+        g_data.SaveConfig();
     }
     catch (...)
     {

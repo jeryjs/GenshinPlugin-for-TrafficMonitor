@@ -27,6 +27,8 @@ static HMODULE GetCurrentModule()
     return hModule;
 }
 
+static int ReadInt(LPCWSTR section, LPCWSTR key, int defaultVal, LPCWSTR path) { return GetPrivateProfileIntW(section, key, defaultVal, path); }
+
 static void WriteInt(LPCWSTR section, LPCWSTR key, int value, LPCWSTR path)
 {
     wchar_t buf[16];
@@ -60,6 +62,22 @@ void CDataManager::LoadConfig(const std::wstring& config_dir)
     m_showStamina = GetPrivateProfileIntW(L"display", L"stamina", m_showStamina ? 1 : 0, m_configPath.c_str()) != 0;
     m_showRealm = GetPrivateProfileIntW(L"display", L"realm", m_showRealm ? 1 : 0, m_configPath.c_str()) != 0;
     m_showExpedition = GetPrivateProfileIntW(L"display", L"expedition", m_showExpedition ? 1 : 0, m_configPath.c_str()) != 0;
+
+    // Load cached last known values
+    m_cachedStaminaCurrent = ReadInt(L"cached", L"stamina_current", m_cachedStaminaCurrent, m_configPath.c_str());
+    m_cachedStaminaMax = ReadInt(L"cached", L"stamina_max", m_cachedStaminaMax, m_configPath.c_str());
+    m_cachedRealmCurrent = ReadInt(L"cached", L"realm_current", m_cachedRealmCurrent, m_configPath.c_str());
+    m_cachedRealmMax = ReadInt(L"cached", L"realm_max", m_cachedRealmMax, m_configPath.c_str());
+    m_cachedExpeditionFinished = ReadInt(L"cached", L"expedition_finished", m_cachedExpeditionFinished, m_configPath.c_str());
+    m_cachedExpeditionTotal = ReadInt(L"cached", L"expedition_total", m_cachedExpeditionTotal, m_configPath.c_str());
+
+    // Initialize current values from cached values (fallback instead of 0)
+    m_staminaCurrent = m_cachedStaminaCurrent;
+    m_staminaMax = m_cachedStaminaMax;
+    m_realmCurrent = m_cachedRealmCurrent;
+    m_realmMax = m_cachedRealmMax;
+    m_expeditionFinished = m_cachedExpeditionFinished;
+    m_expeditionTotal = m_cachedExpeditionTotal;
 }
 
 void CDataManager::SaveConfig()
@@ -71,4 +89,12 @@ void CDataManager::SaveConfig()
     WriteInt(L"display", L"stamina", m_showStamina ? 1 : 0, m_configPath.c_str());
     WriteInt(L"display", L"realm", m_showRealm ? 1 : 0, m_configPath.c_str());
     WriteInt(L"display", L"expedition", m_showExpedition ? 1 : 0, m_configPath.c_str());
+
+    // Save cached last known values
+    WriteInt(L"cached", L"stamina_current", m_cachedStaminaCurrent, m_configPath.c_str());
+    WriteInt(L"cached", L"stamina_max", m_cachedStaminaMax, m_configPath.c_str());
+    WriteInt(L"cached", L"realm_current", m_cachedRealmCurrent, m_configPath.c_str());
+    WriteInt(L"cached", L"realm_max", m_cachedRealmMax, m_configPath.c_str());
+    WriteInt(L"cached", L"expedition_finished", m_cachedExpeditionFinished, m_configPath.c_str());
+    WriteInt(L"cached", L"expedition_total", m_cachedExpeditionTotal, m_configPath.c_str());
 }
