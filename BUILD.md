@@ -3,7 +3,7 @@
 ## With MinGW (current system)
 
 ```bat
-cd Y:\Tools\TrafficMonitor\GenshinPlugin
+cd Y:\Tools\TrafficMonitor\plugins-src\GenshinPlugin
 cmake -B build -G "MinGW Makefiles"
 cmake --build build --config Release
 ```
@@ -13,7 +13,7 @@ DLL output: `GenshinPlugin.dll` in the project root.
 ## With Visual Studio (MSVC)
 
 ```bat
-cd Y:\Tools\TrafficMonitor\GenshinPlugin
+cd Y:\Tools\TrafficMonitor\plugins-src\GenshinPlugin
 cmake -B build -G "Visual Studio 17 2022" -A x64
 cmake --build build --config Release
 ```

@@ -15,7 +15,7 @@ in your Windows taskbar via TrafficMonitor.
 ## Quick build
 
 ```bat
-cd Y:\Tools\TrafficMonitor\GenshinPlugin
+cd Y:\Tools\TrafficMonitor\plugins-src\GenshinPlugin
 cmake -B build -G "Visual Studio 17 2022" -A x64
 cmake --build build --config Release
 ```

@@ -4,3 +4,4 @@ STATUS.md
 *.log
 *.tmp
 *.bak
+build/
