@@ -1,0 +1,3 @@
+Y:\Dev\CMake\bin\cmake.exe -E rm -f CMakeFiles\GenshinPlugin.dir/objects.a
+C:\Users\jery\AppData\Local\Temp\w64devkit\w64devkit\bin\ar.exe qc CMakeFiles\GenshinPlugin.dir/objects.a @CMakeFiles\GenshinPlugin.dir\objects1.rsp
+C:\Users\jery\AppData\Local\Temp\w64devkit\w64devkit\bin\g++.exe -shared -o Y:\Tools\TrafficMonitor\GenshinPlugin\GenshinPlugin.dll -Wl,--out-implib,libGenshinPlugin.dll.a -Wl,--major-image-version,0,--minor-image-version,0 -Wl,--whole-archive CMakeFiles\GenshinPlugin.dir/objects.a -Wl,--no-whole-archive @CMakeFiles\GenshinPlugin.dir\linkLibs.rsp

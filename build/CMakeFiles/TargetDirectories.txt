@@ -1,0 +1,3 @@
+Y:/Tools/TrafficMonitor/GenshinPlugin/build/CMakeFiles/GenshinPlugin.dir
+Y:/Tools/TrafficMonitor/GenshinPlugin/build/CMakeFiles/edit_cache.dir
+Y:/Tools/TrafficMonitor/GenshinPlugin/build/CMakeFiles/rebuild_cache.dir
