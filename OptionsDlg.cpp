@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "OptionsDlg.h"
 #include "resource.h"
+#include "PluginGenshin.h"
 #include <commctrl.h>
 
 // MinGW headers may not define these extended updown messages
@@ -74,6 +75,10 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARA
         if (LOWORD(wParam) == IDCANCEL)
         {
             EndDialog(hDlg, IDCANCEL);
+            return TRUE;
+        }
+        if (LOWORD(wParam) == IDC_BTN_REFRESH) {
+            CPluginGenshin::Instance().TriggerRefresh();
             return TRUE;
         }
         break;

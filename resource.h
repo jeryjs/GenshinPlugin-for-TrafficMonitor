@@ -11,3 +11,4 @@
 
 #define IDS_PLUGIN_NAME         101
 #define IDS_PLUGIN_DESC         102
+#define IDC_BTN_REFRESH 2008
