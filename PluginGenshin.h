@@ -25,6 +25,9 @@ public:
     // Called by the static thread entry point
     void WorkerLoop();
 
+    // Used by the options dialog's Refresh now button
+    void TriggerRefresh();
+
 private:
     CPluginStamina      m_staminaItem;
     CPluginRealm        m_realmItem;
@@ -42,7 +45,6 @@ private:
     void LoadConfigOrDefaults(const wchar_t* configDir);
     void FetchFromApi();
     void UpdateCachedStrings();
-    void TriggerRefresh();
 
     static CPluginGenshin m_instance;
 };

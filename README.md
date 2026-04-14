@@ -16,11 +16,12 @@ in your Windows taskbar via TrafficMonitor.
 
 ```bat
 cd Y:\Tools\TrafficMonitor\plugins-src\GenshinPlugin
-cmake -B build -G "Visual Studio 17 2022" -A x64
+call "C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
+cmake -B build -G "NMake Makefiles"
 cmake --build build --config Release
 ```
 
-> Needs Visual Studio with MFC support enabled. See [BUILD.md](BUILD.md) for full instructions.
+> Needs the Visual Studio Build Tools x64 environment. See [BUILD.md](BUILD.md) for full instructions.
 
 ## Deploy
 

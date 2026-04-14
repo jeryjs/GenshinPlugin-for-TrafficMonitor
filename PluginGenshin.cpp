@@ -5,17 +5,32 @@
 #include "OptionsDlg.h"
 #include <nlohmann/json.hpp>
 #include <chrono>
+#include <ctime>
 #include <sstream>
 #include <iomanip>
 
 using json = nlohmann::json;
 
+static bool LocalTimeSafe(std::tm& out, const std::time_t& value)
+{
+#if defined(_MSC_VER)
+    return localtime_s(&out, &value) == 0;
+#else
+    if (std::tm* local = std::localtime(&value))
+    {
+        out = *local;
+        return true;
+    }
+    return false;
+#endif
+}
+
 // Helper to format current time for display
 static std::wstring GetCurrentTimeString() {
     auto now = std::chrono::system_clock::now();
     auto time = std::chrono::system_clock::to_time_t(now);
-    struct tm localTime;
-    localtime_s(&localTime, &time);
+    std::tm localTime{};
+    LocalTimeSafe(localTime, time);
     std::wostringstream oss;
     oss << std::put_time(&localTime, L"%Y-%m-%d %H:%M:%S");
     return oss.str();
